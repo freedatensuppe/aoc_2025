@@ -1,0 +1,32 @@
+topmap = []
+
+with open("puzzle_input_1.txt", "r") as f:
+    for line in f:
+        word = []
+        for w in line.strip():
+            word.append(w)
+        topmap.append(word)
+
+cols = len(topmap[0])
+rows = len(topmap)
+
+for r in range(rows):
+    for c in range(cols):
+        if topmap[r][c] == "S":
+            topmap[r][c] = 1
+        if topmap[r][c] == ".":
+            topmap[r][c] = 0
+
+
+for r in range(rows - 1):
+    for c in range(cols):
+        if isinstance(topmap[r][c], int) and topmap[r + 1][c] != "^":
+            topmap[r + 1][c] += topmap[r][c]
+        if topmap[r + 1][c] == "^":
+            topmap[r + 1][c + 1] += topmap[r][c]
+            topmap[r + 1][c - 1] += topmap[r][c]
+
+for t in topmap:
+    print(*t)
+
+print(sum(topmap[-1]))
